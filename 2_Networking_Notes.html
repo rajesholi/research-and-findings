@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network-Focused Red Teaming Curriculum</title>
+<style>
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+  color: #333;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+h1 {
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+  font-size: 2.5em;
+}
+h2 {
+  color: #34495e;
+  margin-top: 40px;
+  font-size: 1.8em;
+}
+h3 {
+  color: #7f8c8d;
+  font-size: 1.4em;
+}
+p, li {
+  margin-bottom: 15px;
+}
+ul, ol {
+  margin-left: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #495057;
+}
+tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+pre {
+  background: #2d3748;
+  color: #e2e8f0;
+  padding: 15px;
+  border-radius: 5px;
+  border-left: 4px solid #3498db;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+}
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+code {
+  background: #f1f3f4;
+  color: #2d3748;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+}
+hr {
+  border: none;
+  height: 1px;
+  background: #ddd;
+  margin: 40px 0;
+}
+blockquote {
+  border-left: 4px solid #3498db;
+  padding-left: 15px;
+  margin: 20px 0;
+  font-style: italic;
+  color: #555;
+}
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  .container {
+    padding: 20px;
+    max-width: 100%;
+  }
+  h1 {
+    font-size: 2em;
+  }
+  h2 {
+    font-size: 1.5em;
+  }
+  table {
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+  th, td {
+    padding: 8px;
+    min-width: 100px;
+  }
+  pre {
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.8em;
+  }
+  h2 {
+    font-size: 1.3em;
+  }
+  .container {
+    padding: 15px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<p>Below is a <strong>bottom-up, protocol-centric curriculum</strong> tailored for a software engineer transitioning into <strong>network-focused Red Teaming</strong>. It emphasizes <em>mechanics, not tools</em>, and builds from first principles to adversarial tradecraft.</p>
+<hr />
+<h1>1. The Core Architecture (The "Why" and "How")</h1>
+<h2>1.1 The Purpose of Networking</h2>
+<p>Networking is not merely connectivity—it is an <strong>abstraction system</strong> enabling:</p>
+<ul>
+<li><strong>Resource sharing</strong> (filesystems, compute, services)</li>
+<li><strong>Distributed computation</strong> (microservices, RPC, message queues)</li>
+<li><strong>Fault tolerance and redundancy</strong></li>
+<li><strong>Protocol abstraction</strong> (applications don't manage physical transmission)</li>
+</ul>
+<p>From a red team perspective:</p>
+<blockquote>
+<p>Every abstraction layer introduces <strong>trust boundaries</strong> and <strong>attack surfaces</strong>.</p>
+</blockquote>
+<hr />
+<h2>1.2 OSI Model vs TCP/IP Stack</h2>
+<h3>OSI Model (Conceptual – 7 Layers)</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Function</th>
+<th>Red Team Relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7 Application</td>
+<td>User-facing protocols</td>
+<td>Data exfiltration</td>
+</tr>
+<tr>
+<td>6 Presentation</td>
+<td>Encoding, encryption</td>
+<td>TLS weaknesses</td>
+</tr>
+<tr>
+<td>5 Session</td>
+<td>Session mgmt</td>
+<td>Token/session hijacking</td>
+</tr>
+<tr>
+<td>4 Transport</td>
+<td>End-to-end comms</td>
+<td>Port scanning</td>
+</tr>
+<tr>
+<td>3 Network</td>
+<td>Routing</td>
+<td>IP spoofing</td>
+</tr>
+<tr>
+<td>2 Data Link</td>
+<td>Local delivery</td>
+<td>ARP poisoning</td>
+</tr>
+<tr>
+<td>1 Physical</td>
+<td>Bits on wire</td>
+<td>Rarely targeted</td>
+</tr>
+</tbody>
+</table>
+<h3>TCP/IP Stack (Practical – 4 Layers)</h3>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Maps to OSI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Application</td>
+<td>5–7</td>
+</tr>
+<tr>
+<td>Transport</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Internet</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Network Access</td>
+<td>1–2</td>
+</tr>
+</tbody>
+</table>
+<h3>Where Software Ends vs Hardware Begins</h3>
+<ul>
+<li><strong>Hardware domain</strong>: NIC, switches → frame forwarding</li>
+<li><strong>Kernel space</strong>: TCP/IP stack implementation</li>
+<li><strong>User space</strong>: Applications using sockets</li>
+</ul>
+<p><strong>Key insight:</strong></p>
+<blockquote>
+<p>Red teamers exploit mismatches between <strong>kernel behavior and application assumptions</strong>.</p>
+</blockquote>
+<hr />
+<h2>1.3 Packet Lifecycle (Encapsulation)</h2>
+<p><strong>Outbound:</strong></p>
+<pre><code>Application Data
+→ TCP Segment
+→ IP Packet
+→ Ethernet Frame
+→ Bits on wire
+</code></pre>
+<p><strong>Inbound:</strong>
+Reverse process (<strong>decapsulation</strong>)</p>
+<h3>Critical Observations:</h3>
+<ul>
+<li>Each layer adds <strong>headers → attack metadata</strong></li>
+<li>Manipulating headers = <strong>protocol abuse</strong></li>
+</ul>
+<hr />
+<h1>2. The Red Teamer's Toolkit: Essential Topics</h1>
+<h2>2.1 Layer 2 (Data Link)</h2>
+<h3>MAC Spoofing</h3>
+<ul>
+<li>Alter NIC MAC address</li>
+<li>Used to bypass MAC filtering</li>
+</ul>
+<h3>ARP Poisoning (Core MITM Primitive)</h3>
+<ul>
+<li>ARP = "Who has IP?"</li>
+<li>No authentication → trust-based</li>
+</ul>
+<p>Attack:</p>
+<pre><code>Victim → Attacker: "Who is gateway?"
+Attacker → Victim: "I am gateway"
+</code></pre>
+<p>Result:</p>
+<ul>
+<li>Traffic routed through attacker</li>
+</ul>
+<h3>VLAN Hopping</h3>
+<ul>
+<li>Exploit trunking misconfigurations</li>
+<li>Techniques:</li>
+<li>Double tagging</li>
+<li>Switch spoofing</li>
+</ul>
+<hr />
+<h2>2.2 Layer 3 (Network)</h2>
+<h3>IP Addressing</h3>
+<ul>
+<li>IPv4 vs IPv6 attack surface differs:</li>
+<li>IPv6 → massive address space → scanning harder</li>
+<li>SLAAC → spoofing opportunities</li>
+</ul>
+<h3>Subnetting (CIDR)</h3>
+<ul>
+<li>Essential for:</li>
+<li>Target scoping</li>
+<li>Lateral movement planning</li>
+</ul>
+<p>Example:</p>
+<pre><code>192.168.1.0/24 → 256 hosts
+</code></pre>
+<h3>ICMP Tunneling</h3>
+<ul>
+<li>Abuse ping for covert channels</li>
+<li>Evades naive firewall rules</li>
+</ul>
+<hr />
+<h2>2.3 Layer 4 (Transport)</h2>
+<h3>TCP 3-Way Handshake</h3>
+<pre><code>SYN → SYN-ACK → ACK
+</code></pre>
+<p>Abuse cases:</p>
+<ul>
+<li>SYN scan (half-open scanning)</li>
+<li>SYN flood (DoS)</li>
+</ul>
+<h3>UDP</h3>
+<ul>
+<li>Stateless → no handshake</li>
+<li>Ideal for:</li>
+<li>Amplification attacks</li>
+<li>Stealth exfiltration</li>
+</ul>
+<h3>Port Scanning Mechanics</h3>
+<ul>
+<li>Not just tools (e.g., nmap), but:</li>
+<li>TCP flags manipulation</li>
+<li>Timing analysis</li>
+<li>Packet crafting</li>
+</ul>
+<hr />
+<h2>2.4 Layer 7 (Application)</h2>
+<h3>DNS (High-Value Target)</h3>
+<ul>
+<li>DNS Exfiltration:</li>
+</ul>
+<pre><code>data.attacker.com
+</code></pre>
+<ul>
+<li>Encodes data in queries</li>
+</ul>
+<h3>HTTP/S</h3>
+<ul>
+<li>Headers are attack surface:</li>
+<li><code>Host</code></li>
+<li><code>X-Forwarded-For</code></li>
+<li><code>Authorization</code></li>
+</ul>
+<h3>SSH Tunneling</h3>
+<ul>
+<li>Encrypts arbitrary traffic inside SSH</li>
+<li>Used for pivoting</li>
+</ul>
+<h3>SMTP</h3>
+<ul>
+<li>Often overlooked</li>
+<li>Attack vectors:</li>
+<li>Open relay abuse</li>
+<li>Header injection</li>
+</ul>
+<hr />
+<h1>3. Network Technologies & Infrastructure</h1>
+<h2>3.1 Hardware Behavior</h2>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>Function</th>
+<th>Security Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hub</td>
+<td>Broadcast</td>
+<td>Easy sniffing</td>
+</tr>
+<tr>
+<td>Switch</td>
+<td>MAC-based forwarding</td>
+<td>ARP attacks needed</td>
+</tr>
+<tr>
+<td>Router</td>
+<td>IP routing</td>
+<td>ACL bypass attempts</td>
+</tr>
+<tr>
+<td>Firewall</td>
+<td>Traffic filtering</td>
+<td>Evasion focus</td>
+</tr>
+</tbody>
+</table>
+<h3>Firewalls</h3>
+<ul>
+<li><strong>Stateless</strong>: packet-by-packet</li>
+<li><strong>Stateful</strong>: tracks connections</li>
+</ul>
+<p>Red team focus:</p>
+<blockquote>
+<p>Craft packets that appear legitimate within state tables.</p>
+</blockquote>
+<hr />
+<h2>3.2 Critical Protocols</h2>
+<h3>DHCP (Dynamic Host Configuration Protocol)</h3>
+<p>Attack:</p>
+<ul>
+<li>Rogue DHCP server</li>
+<li>Assign attacker-controlled gateway</li>
+</ul>
+<h3>DNS</h3>
+<ul>
+<li>Cache poisoning</li>
+<li>Redirect traffic silently</li>
+</ul>
+<h3>BGP (Border Gateway Protocol)</h3>
+<ul>
+<li>Internet routing protocol</li>
+<li>Attack:</li>
+<li>Route hijacking</li>
+<li>Traffic interception</li>
+</ul>
+<hr />
+<h1>4. Offensive Principles & Technologies</h1>
+<h2>4.1 Post-Exploitation Networking</h2>
+<h3>Pivoting</h3>
+<ul>
+<li>Use compromised host as foothold</li>
+<li>Access internal networks</li>
+</ul>
+<h3>Port Forwarding</h3>
+<ul>
+<li>Redirect traffic:</li>
+</ul>
+<pre><code>Attacker → Compromised Host → Internal Service
+</code></pre>
+<p>Tools:</p>
+<ul>
+<li>Chisel</li>
+<li>ProxyChains</li>
+</ul>
+<hr />
+<h2>4.2 Network Sniffing</h2>
+<h3>Tools:</h3>
+<ul>
+<li>Wireshark (GUI)</li>
+<li>Tshark (CLI)</li>
+<li>Tcpdump (low-level)</li>
+</ul>
+<h3>Skills:</h3>
+<ul>
+<li>Read raw packets</li>
+<li>Identify anomalies</li>
+<li>Extract credentials</li>
+</ul>
+<hr />
+<h2>4.3 Man-in-the-Middle (MITM)</h2>
+<p>Core idea:</p>
+<blockquote>
+<p>Intercept → Inspect → Modify → Forward</p>
+</blockquote>
+<p>Techniques:</p>
+<ul>
+<li>ARP poisoning</li>
+<li>DNS spoofing</li>
+<li>SSL stripping</li>
+</ul>
+<hr />
+<h1>5. Additionals (Modern Stack)</h1>
+<h2>5.1 Software-Defined Networking (SDN)</h2>
+<h3>Cloud Networking</h3>
+<h4>AWS VPC</h4>
+<ul>
+<li>Subnets</li>
+<li>Route tables</li>
+<li>Security groups</li>
+</ul>
+<h4>Azure VNets</h4>
+<ul>
+<li>Similar abstractions</li>
+</ul>
+<p>Red team implication:</p>
+<blockquote>
+<p>Misconfigurations replace traditional vulnerabilities.</p>
+</blockquote>
+<hr />
+<h2>5.2 Zero Trust Architecture</h2>
+<p>Principle:</p>
+<blockquote>
+<p>"Never trust, always verify"</p>
+</blockquote>
+<p>Implications:</p>
+<ul>
+<li>No implicit internal trust</li>
+<li>Strong identity validation</li>
+</ul>
+<p>For red teamers:</p>
+<ul>
+<li>Focus shifts to:</li>
+<li>Identity attacks</li>
+<li>Token abuse</li>
+<li>API exploitation</li>
+</ul>
+<hr />
+<h1>6. Key Areas for Transition (Developer → Red Teamer)</h1>
+<h2>6.1 Scanning & Enumeration</h2>
+<ul>
+<li>Silent discovery techniques</li>
+<li>IDS evasion:</li>
+<li>Slow scans</li>
+<li>Fragmented packets</li>
+</ul>
+<hr />
+<h2>6.2 Protocol Weaknesses</h2>
+<h3>High-risk protocols:</h3>
+<ul>
+<li>FTP → plaintext credentials</li>
+<li>Telnet → no encryption</li>
+<li>SMBv1 → exploitable</li>
+</ul>
+<p>Focus:</p>
+<blockquote>
+<p>Read RFCs, not just tool docs.</p>
+</blockquote>
+<hr />
+<h2>6.3 Active Directory Networking</h2>
+<p>Critical protocols:</p>
+<h3>Kerberos</h3>
+<ul>
+<li>Ticket-based authentication</li>
+<li>Attacks:</li>
+<li>Pass-the-ticket</li>
+<li>Golden ticket</li>
+</ul>
+<h3>LDAP</h3>
+<ul>
+<li>Directory queries</li>
+<li>Used for enumeration</li>
+</ul>
+<h3>SMB</h3>
+<ul>
+<li>File sharing</li>
+<li>Lateral movement vector</li>
+</ul>
+<hr />
+<h1>Execution Strategy (Practical Path)</h1>
+<h2>Phase 1 (Weeks 1–3)</h2>
+<ul>
+<li>TCP/IP internals</li>
+<li>Packet crafting (Scapy)</li>
+</ul>
+<h2>Phase 2 (Weeks 4–6)</h2>
+<ul>
+<li>ARP, DNS, DHCP attacks</li>
+<li>Wireshark deep analysis</li>
+</ul>
+<h2>Phase 3 (Weeks 7–10)</h2>
+<ul>
+<li>Port scanning mechanics</li>
+<li>MITM lab setups</li>
+</ul>
+<h2>Phase 4 (Weeks 11–14)</h2>
+<ul>
+<li>AD networking (Kerberos/LDAP)</li>
+<li>Pivoting labs</li>
+</ul>
+<h2>Phase 5 (Ongoing)</h2>
+<ul>
+<li>Cloud networking attacks</li>
+<li>Zero Trust bypass strategies</li>
+</ul>
+<hr />
+<h1>Final Observation</h1>
+<p>A strong red teamer in networking:</p>
+<ul>
+<li>Thinks in <strong>packets, not tools</strong></li>
+<li>Understands <strong>protocol invariants</strong></li>
+<li>Exploits <strong>implicit trust relationships</strong></li>
+</ul>
+<hr />
+<p>If you want, I can convert this into a <strong>hands-on lab roadmap (with step-by-step attack simulations)</strong> or a <strong>daily 10–12 hour study schedule tailored to your current level</strong>.</p>
+</div>
+</body>
+</html>
