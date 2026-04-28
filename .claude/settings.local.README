@@ -1,0 +1,37 @@
+settings.local.json — permission reference
+==========================================
+
+CURRENT STATE
+  Claude can stage files (git add) but must ask your approval before
+  committing or pushing.
+
+TO GRANT COMMIT + PUSH PERMISSION
+  Add these two lines back into the "allow" array in settings.local.json:
+
+    "Bash(git commit -m ' *)",
+    "Bash(git push *)"
+
+  Full file with all permissions enabled:
+
+    {
+      "permissions": {
+        "allow": [
+          "Bash(git add *)",
+          "Bash(git commit -m ' *)",
+          "Bash(git push *)"
+        ]
+      }
+    }
+
+TO REVOKE ALL PERMISSIONS
+  Leave the "allow" array empty:
+
+    {
+      "permissions": {
+        "allow": []
+      }
+    }
+
+NOTE
+  This file is for human reference only — Claude Code reads settings.local.json,
+  not this file.
