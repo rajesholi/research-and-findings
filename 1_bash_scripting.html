@@ -1,3 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bash Scripting Guide</title>
+<style>
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+  color: #333;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+h1 {
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+  font-size: 2.5em;
+}
+h2 {
+  color: #34495e;
+  margin-top: 40px;
+  font-size: 1.8em;
+}
+h3 {
+  color: #7f8c8d;
+  font-size: 1.4em;
+}
+p, li {
+  margin-bottom: 15px;
+}
+ul, ol {
+  margin-left: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #495057;
+}
+tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+pre {
+  background: #2d3748;
+  color: #e2e8f0;
+  padding: 15px;
+  border-radius: 5px;
+  border-left: 4px solid #3498db;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+}
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+code {
+  background: #f1f3f4;
+  color: #2d3748;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+}
+hr {
+  border: none;
+  height: 1px;
+  background: #ddd;
+  margin: 40px 0;
+}
+blockquote {
+  border-left: 4px solid #3498db;
+  padding-left: 15px;
+  margin: 20px 0;
+  font-style: italic;
+  color: #555;
+}
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  .container {
+    padding: 20px;
+    max-width: 100%;
+  }
+  h1 {
+    font-size: 2em;
+  }
+  h2 {
+    font-size: 1.5em;
+  }
+  table {
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+  }
+  th, td {
+    padding: 8px;
+    min-width: 100px;
+  }
+  pre {
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.8em;
+  }
+  h2 {
+    font-size: 1.3em;
+  }
+  .container {
+    padding: 15px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
 <hr />
 <h1>1. Concept &amp; Purpose</h1>
 <h2>What is Bash?</h2>
@@ -412,3 +557,6 @@ IFS=$'\n\t'
 <li>Writing scripts that are <strong>robust under failure conditions</strong></li>
 </ul>
 <hr />
+</div>
+</body>
+</html>
